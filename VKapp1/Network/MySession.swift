@@ -7,13 +7,20 @@
 
 import Foundation
 
+///  Signltone for VK secured information
 final class MySession {
     
+    
+    /// Initialized singleton class "MySession" for global access
     static var shared = MySession()
     
     private init() {}
     
-    let token = ""
-    let userID = 0
+    
+    /// Access token for using VK API methods
+    var token: String?
+    
+    /// VK's Authorized user's indetification number
+    var userID: String?
     
 }
