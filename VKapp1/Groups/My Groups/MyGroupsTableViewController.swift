@@ -11,12 +11,14 @@ class MyGroupsTableViewController: UITableViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     
+    let networkManager = NetworkManager()
     var groupsForMyTableView = [Group]()
     
     //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        networkManager.fetchGroupData()
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.leftBarButtonItem = self.editButtonItem
         editButtonItem.tintColor = UIColor(named: "acidGreen")

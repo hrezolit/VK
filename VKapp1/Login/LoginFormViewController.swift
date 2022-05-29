@@ -23,13 +23,16 @@ class LoginFormViewController: UIViewController {
     //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let hideKeyboardGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        // Assign to UIScrollVIew
-        scrollView?.addGestureRecognizer(hideKeyboardGesture)
-        
+                
+        // Delegates
         self.loginTextField.delegate = self
         self.passwordTextField.delegate = self
+            
+        // Tap gesture recognizer
+        let hideKeyboardGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        
+        // Assign to UIScrollVIew
+        scrollView?.addGestureRecognizer(hideKeyboardGesture)
         
         // Changing color of placeholder's text
         loginTextField.attributedPlaceholder = NSAttributedString(
@@ -44,12 +47,13 @@ class LoginFormViewController: UIViewController {
         setUpElements()
         
     }
+    
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Adding observers for observe keyboard condition
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWasShown), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillBeHidden(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
@@ -57,6 +61,7 @@ class LoginFormViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        // Removing observers
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         
@@ -68,7 +73,7 @@ class LoginFormViewController: UIViewController {
         passwordTextField.text = ""
     }
     
-    //MARK: - Switcher func
+    //MARK: - Switcher for Dark Mode
     @IBAction func changeMode(_ sender: UISwitch) {
         if sender.isOn {
             switchLabel.text = "Light Mode"
@@ -144,7 +149,7 @@ class LoginFormViewController: UIViewController {
         passingInformation?.enteringPerson = loginTextField.text!
     }
     
-    // Instal customization on textFields
+    /// Install customization for textFields
     func setUpElements() {
         Utilities.styleTextField(loginTextField)
         Utilities.styleTextField(passwordTextField)
@@ -177,7 +182,7 @@ class LoginFormViewController: UIViewController {
     }
     
 }
-//MARK: - extentions
+//MARK: - extention UITextFieldDelegate
 extension LoginFormViewController: UITextFieldDelegate {
     
     //make "next" button switch to the next textField

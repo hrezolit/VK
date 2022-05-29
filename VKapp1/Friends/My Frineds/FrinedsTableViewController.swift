@@ -14,6 +14,8 @@ struct SortingFriendsForHeader {
 
 class FrinedsTableViewController: UITableViewController {
     
+    let networkManager = NetworkManager()
+    
     var friendFirstLetter: [SortingFriendsForHeader] {
         var result = [SortingFriendsForHeader]()
         
@@ -34,6 +36,8 @@ class FrinedsTableViewController: UITableViewController {
     //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        networkManager.fetchFriendsData()
         
         let myNib = UINib(nibName: "FriendsAlphabetHeaderView", bundle: .main)
         tableView.register(myNib, forHeaderFooterViewReuseIdentifier: "header")
