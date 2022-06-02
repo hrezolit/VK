@@ -46,8 +46,6 @@ extension WebViewController: WKNavigationDelegate {
         if let token = params["access_token"], let userId = params["user_id"] {
             MySession.shared.token = token
             MySession.shared.userID = userId
-            print("ACCESS_TOKEN: \(MySession.shared.token)")
-            print("USER_ID: \(MySession.shared.userID)")
             
             decisionHandler(.cancel)
             
@@ -71,9 +69,9 @@ extension WebViewController {
             URLQueryItem(name: "client_id", value: "8150035"),
             URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
             URLQueryItem(name: "display", value: "mobile"),
-            URLQueryItem(name: "scope", value: "friends, groups, photos"),
+            URLQueryItem(name: "scope", value: "online, wall, friends, groups, photos"),
             URLQueryItem(name: "response_type", value: "token"),
-            URLQueryItem(name: "revoke", value: "0")
+			URLQueryItem(name: "v", value: "5.131")
         ]
         
         guard let url = urlComponents.url else { return }

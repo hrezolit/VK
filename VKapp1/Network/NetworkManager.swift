@@ -12,15 +12,26 @@ enum Location: String {
     case profile = "profile"
 }
 
+enum RequestType {
+    case friendRequest
+    case groupRequest
+    case photoRequest
+//    case searchGroupRequest
+}
+
 /// Class with requests methods for VK API
 final class NetworkManager {
-    
+
     private let token = MySession.shared.token
     private let userID = MySession.shared.userID
-    
+
     private var components = URLComponents()
-    
-    private func loadData() {
+
+
+
+    /// load data method
+    /// - Parameter requestType: enum with request types
+    private func loadData(requestType: RequestType) {
         guard let url = components.url else { return }
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -28,35 +39,47 @@ final class NetworkManager {
                 return
             }
             do {
-                let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
-                print(result)
+                switch requestType {
+                case .friendRequest:
+                    let result = try JSONDecoder().decode(User1.self, from: data)
+                    print(result)
+                case .groupRequest:
+                    let result = try JSONDecoder().decode(Photos1.self, from: data)
+                    print(result)
+                case .photoRequest:
+                    let result = try JSONDecoder().decode(GroupsVK.self, from: data)
+                    print(result)
+//                case .searchGroupRequest:
+//                    let result = try JSONDecoder().decode(User1.self, from: data)
+//                    print(result)
+                }
+
             } catch {
                 print(error)
             }
         }.resume()
     }
-    
+
     /// VK API Friends data request method
     func fetchFriendsData() {
         guard MySession.shared.token != "" else { return }
-        
+
         components.scheme = "https"
         components.host = "api.vk.com"
         components.path = "/method/friends.get"
         components.queryItems = [
-            URLQueryItem(name: "user_id", value: userID),
             URLQueryItem(name: "access_token", value: token),
             URLQueryItem(name: "v", value: "5.131"),
-            URLQueryItem(name: "fields", value: "bdate")
+            URLQueryItem(name: "fields", value: "bdate,photo_100,online")
         ]
-        
-        loadData()
+
+        loadData(requestType: .friendRequest)
     }
-    
+
     /// VK API Photos data request method
     /// - Parameter location: .wall — photos from profile's wall, .profile - profile's photos
     func fetchPhotosData(from location: Location) {
-        
+
         components.scheme = "https"
         components.host = "api.vk.com"
         components.path = "/method/photos.get"
@@ -66,44 +89,44 @@ final class NetworkManager {
             URLQueryItem(name: "access_token", value: token),
             URLQueryItem(name: "v", value: "5.131"),
         ]
-        
-        loadData()
+
+        loadData(requestType: .photoRequest)
     }
-    
+
     /// VK API Groups data request method
     func fetchGroupData() {
-        
+
         components.scheme = "https"
         components.host = "api.vk.com"
         components.path = "/method/groups.get"
         components.queryItems = [
-            
+
             URLQueryItem(name: "user_id", value: userID),
             URLQueryItem(name: "access_token", value: token),
             URLQueryItem(name: "v", value: "5.131"),
             URLQueryItem(name: "extended", value: "1")
-            
+
         ]
-        
-        loadData()
+
+        loadData(requestType: .groupRequest)
     }
-    
+
     /// VK API Searching Group data request method with keyword parameters
     /// - Parameter keyWord: keyword for search groups
-    func fetchSearchGroupData(with keyWord: String) {
-        
-        components.scheme = "https"
-        components.host = "api.vk.com"
-        components.path = "/method/groups.search"
-        components.queryItems = [
-            
-            URLQueryItem(name: "q", value: keyWord),
-            URLQueryItem(name: "access_token", value: token),
-            URLQueryItem(name: "v", value: "5.131")
-            
-        ]
-        
-        loadData()
-        
-    }
+//    func fetchSearchGroupData(with keyWord: String) {
+//
+//        components.scheme = "https"
+//        components.host = "api.vk.com"
+//        components.path = "/method/groups.search"
+//        components.queryItems = [
+//
+//            URLQueryItem(name: "q", value: keyWord),
+//            URLQueryItem(name: "access_token", value: token),
+//            URLQueryItem(name: "v", value: "5.131")
+//
+//        ]
+//
+//        loadData()
+//
+//    }
 }

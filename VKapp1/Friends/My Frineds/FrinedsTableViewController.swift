@@ -37,7 +37,14 @@ class FrinedsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        networkManager.fetchFriendsData()
+		FriendService().loadFriendVK { result in
+			switch result {
+			case .success(let friends):
+				print(friends)
+			case .failure(let error):
+				print(error)
+			}
+		}
         
         let myNib = UINib(nibName: "FriendsAlphabetHeaderView", bundle: .main)
         tableView.register(myNib, forHeaderFooterViewReuseIdentifier: "header")

@@ -18,9 +18,9 @@ final class MySession {
     
     
     /// Access token for using VK API methods
-    var token = ""
+	var token: String?
     
     /// VK's Authorized user's indetification number
-    var userID = ""
+	var userID: String?
     
 }

@@ -17,6 +17,7 @@ class LoginFormViewController: UIViewController {
     @IBOutlet weak var switcher: UISwitch!
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var switchLabel: UILabel!
+    @IBOutlet weak var freeAccessButton: UIButton!
     
     var enteringPerson : String!
     
@@ -120,7 +121,7 @@ class LoginFormViewController: UIViewController {
         guard let login = loginTextField.text,
               let password = passwordTextField.text else { return false }
         
-        if login == "Nik" && password == "123456" {
+        if login == "" && password == "" {
             return true
         } else {
             return false
