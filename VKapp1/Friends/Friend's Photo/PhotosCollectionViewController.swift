@@ -12,12 +12,16 @@ private let reuseIdentifier = "Cell"
 class PhotosCollectionViewController: UICollectionViewController {
     
     var friendIndex: Int = 0
+    private let networkManager = NetworkManager()
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allFriends[friendIndex].userPhotos.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        networkManager.fetchPhotosData(from: .wall)
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotosCell", for: indexPath) as? PhotoCollectionViewCell
         let photo = allFriends[friendIndex].userPhotos[indexPath.row]
         

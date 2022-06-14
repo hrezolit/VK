@@ -25,7 +25,7 @@ class EnterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        enteringPersonLabel.text = "Hello, \(enteringPerson ?? "God")!"
+        enteringPersonLabel.text = "Hello, God!"
         enteringPersonLabel.font = UIFont(name: "Chalkduster", size: 35)
         enteringPersonLabel.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         

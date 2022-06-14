@@ -8,6 +8,50 @@
 import Foundation
 import UIKit
 
+struct User1: Decodable {
+    let response: ResponseFriends
+
+	enum CodingKeys: String, CodingKey {
+		case response = "response"
+	}
+}
+
+struct ResponseFriends: Decodable {
+    let count: Int
+    let items: [Item1]
+
+	enum CodingKeys: String, CodingKey {
+		case count = "count"
+		case items = "items"
+	}
+}
+
+struct Item1: Decodable {
+    let id: Int
+    let birthday: String?
+    let trackCode: String
+    let firstName: String
+    let lastName: String
+	let photo100: String
+    let canAccessClosed: Bool?
+    let isClosed: Bool?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case birthday = "bdate"
+        case trackCode = "track_code"
+        case firstName = "first_name"
+        case lastName = "last_name"
+		case photo100 = "photo_100"
+        case canAccessClosed = "can_access_closed"
+        case isClosed = "is_closed"
+    }
+}
+
+
+
+
+//MARK: - old code
 struct User {
     
     let name: String
